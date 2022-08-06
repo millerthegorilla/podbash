@@ -48,28 +48,6 @@ popd &> /dev/null
 
 echo "USER_DIR=${USER_DIR}" >> ${L_S_FILE}
 
-# CODE_PATH
-pushd / &> /dev/null
-until [[ -d "${CODE_PATH}" && ! -L "${CODE_PATH}" ]] 
-do
-    read -p 'Absolute path to code (the folder where manage.py resides) : ' -e CODE_PATH
-    if [[ ! -d "${CODE_PATH}" ]]
-    then
-       echo -e "That path doesn't exist!"
-    fi
-    if [[ -L "${CODE_PATH}" ]]
-    then
-        echo -e "Code path must not be a symbolic link"
-    fi
-    if [[ ! -d "${CODE_PATH}/media" ]]
-    then
-        echo -e "There is no media dir in that location. Are you sure?  I will progress anyway.  If it is incorrect, simply stop the script and restart."
-    fi
-done
-popd &> /dev/null
-
-echo "CODE_PATH=${CODE_PATH}" >> ${L_S_FILE}
-
 # DJANGO_PROJECT_NAME
 PN=$(basename $(dirname $(find ${CODE_PATH} -name "asgi.py")))
 read -p "Enter the name of the django project ie the folder in which wsgi.py resides [${PN}] : " DJANGO_PROJECT_NAME
