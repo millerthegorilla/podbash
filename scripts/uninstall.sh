@@ -14,5 +14,5 @@ find ${SCRIPTS_ROOT} -type f | xargs chmod 0660
 find ${SCRIPTS_ROOT}/.git -type d | xargs chmod 755
 find ${SCRIPTS_ROOT}/.git/objects -type f | xargs chmod 664
 find ${SCRIPTS_ROOT}/.git -type f | grep -v /objects/ | xargs chmod 644
-chmod 0770 ${SCRIPTS_ROOT}/artisan_run.sh
+chmod 0770 ${SCRIPTS_ROOT}/podbash.sh
 chown root:root ${SCRIPTS_ROOT}/settings_files
