@@ -7,14 +7,3 @@ select yn in "Yes" "No"; do
         No ) imgs_remove=0; break;;
     esac
 done
-
-if [[ imgs_remove -eq 1 ]]
-then
-    IMAGES=$(grep -whorP "(TAG)+=\K.*" ${CONTAINER_SCRIPTS_ROOT}/containers/ | sed s'/\n/ /')
-    for image in ${IMAGES}
-    do
-	   runuser --login ${USER_NAME} -c "podman rmi ${image}"
-    done
-fi
-
-runuser --login ${USER_NAME} -c "podman volume prune -f"

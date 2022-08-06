@@ -8,6 +8,12 @@ source ${CONTAINER_SCRIPTS_ROOT}/setup/utils/current_dir.sh
 
 SYSTEMD_UNIT_DIR="${CURRENT_DIR}/unit_files"
 
+# curently I develop in a virt-manager VM, and so I use a graphical target, spawning
+# a terminal on login to run the development install
+# the production installation, on the other hand uses a lingering user account,
+# and starts with no graphical terminal, as it runs on raspberry pi that I 
+# ssh to.
+
 if [[ ! -d ${SYSTEMD_UNIT_DIR} ]];
 then
     mkdir -p ${SYSTEMD_UNIT_DIR};

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# called by {SCRIPTS_ROOT}/scripts/create_all.sh
+# called by {SCRIPTS_ROOT}/scripts/settings.sh
 
 if [[ $EUID -ne 0 ]]
 then
