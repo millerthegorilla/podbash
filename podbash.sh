@@ -25,9 +25,9 @@ fi
 function install_check()
 {
   INSTALLED="installed."
-    if [[ "550" -ne $(stat -c '%a' ${SCRIPTS_ROOT}/artisan_run.sh) ]];
+    if [[ "550" -ne $(stat -c '%a' ${SCRIPTS_ROOT}/podbash.sh) ]];
     then
-      ERROR=": ERR1 artisan_run.sh"
+      ERROR=": ERR1 podbash.sh"
       INSTALLED="not installed"
     fi
     for line in $(find ${SCRIPTS_ROOT}/scripts -type d);
@@ -378,26 +378,33 @@ while (( "$#" )); do
       systemctl reboot
       ;;
     help|-h|-?|--help)
-      echo -e "$ artisan_run command   - where command is one of clean,
-create [ variables, directories, images, containers, systemd ],
-install, interact, manage, pip, postgit, refresh, replace, reload, status,
-settings, update or help.
-
-appsrc - clones app src directories from a repository, ie github, by cloning
-         each address in a file of addresses one at a time into a specified directory.
+      echo -e "$ ./podbash.sh command   - where command is one of clean,
+create [ variables, templates, directories, network, pull, build, settings, pods, containers, systemd ],
+install, refresh, status, settings, update or help.
 
 clean - cleans the project, deleting the containers and pod, and deleting 
         settings files etc.
 
 create - on its own creates a new project, running through the various stages
     which are:
-       variables - gets variables from user
-       directories - creates the directories and lowers the machine's port 
-                     numbers from 1024 to 80
-       images - pulls the podman images and creates the custom images - can
-                take a long time.
-       containers - creates the containers from the container scripts
-       systemd - creates and installs the systemd units
+       variables   - gets variables from user
+       templates   - calls into container/pod directories templates.sh to
+                     use envsubst to complete template files in appropriate
+                     template directory
+       directories - calls into directories.sh in container directories to
+                     make any directories and set permissions etc
+       network     - calls net.sh in containers/pods directories to set network
+                     settings for containers
+       pull        - pulls the podman images that are mentioned in source.sh in
+                     each container directory
+       build       - builds any custom containers that are defined
+       settings    - calls choose_settings.sh to choose the appropriate settings file
+                     and copy or envsubst them to the appropriate place
+       pods        - creates pods 
+       containers  - creates the containers from the container scripts, pre,run,post
+                     in that order (default - see ${SCRIPTS_ROOT}/options)
+       systemd     - creates and installs the systemd units
+    
     Use any combination of the stage names after the create verb to perform
     those stages.
 
@@ -408,21 +415,11 @@ interact - commands following the interact verb will be run inside the podman
            pod using systemd context.  You are often better to run 
            'podman pod exec -it container_name bash' in the user account.
 
-manage - connects to the python manage.py command inside the pod.  Run with 
-         any manage commmand ie.  sudo ./artisan_run.sh manage createsuperuser.
-
-pip - enters a venv inside the django container and runs pip with the commands
-      that you supply.
-      
 postgit - in case you reinstall django_artisan filebase completes and copies
           manage.py and wsgi.py and copies them to the appropriate places and
           sets the file and directory permissions inside the container correctly
 
 refresh - deletes all images, downloads them and rebuilds the custom images.
-
-replace - replaces manage.py and wsgi.py.
-
-reload - for production use only, kills and restarts the gunicorn process.
 
 status - reports the current status of the project.
 
@@ -430,9 +427,6 @@ settings - replaces the settings file with one you choose from the
            dev/production directory.
 
 tests_on - changes database permissions sufficient to allow tests to be run
-
-tests_off - changes database permissions back to minimal set, depending on
-            whether project is debug or production.
 
 update - runs apt-get update in all the containers.  Note that when you create a
          project you can specify that the containers are updated where possible,
