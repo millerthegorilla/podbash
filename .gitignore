@@ -7,13 +7,5 @@ container_scripts/containers/**/variables/settings.sh
 container_scripts/containers/**/image/existing_image_vars
 .PROJECT_SETTINGS
 settings_files
-artisan_run.sh
-ceramic_isles_app_src_githubs
-container_scripts
+settings_files/**/*
 LICENSE
-options
-README.md
-scripts
-settings_files
-todo
-visualized.png
