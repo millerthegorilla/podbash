@@ -24,7 +24,7 @@ fi
 
 function local_install_check()
 {
-  for file in find ${CONTAINER_SCRIPTS_ROOT} -type f -name "install.sh";
+  for file in $(find ${CONTAINER_SCRIPTS_ROOT} -type f -name "install.sh")
   do
     source ${install}
     if [[ $(type -t install_check) == "function" ]]
@@ -46,7 +46,6 @@ function local_install_check()
 
 if [[ "$1" != "install" && "$1" != "uninstall" ]]; then
     local_install_check;
-    echo "hey"
 fi
 
 if ! [[ -s ${PROJECT_SETTINGS} ]];
