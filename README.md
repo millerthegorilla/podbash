@@ -7,9 +7,22 @@ As poor as these scripts are, and keeping in mind I accept no responsibility for
 
 ### quickstart
 
-The scripts are designed to be installed in a super user account and to refer to a user account.  So you will need a sudo account and a non-sudo user, for maximum security.
+The scripts can be installed in a user or a super user account.  If you can use a sudo account and a non-sudo user, for maximum security,
+then place the following at the beginning of each of your container_scripts...
+```
+if [[ $EUID -ne 0 ]]
+then
+   echo "This script must be run as root" 
+   exit 1
+fi
+```
 
-Download, clone etc this project into your sudo users account, and then run ```podbash install```, this sets the permissions of the podbash scripts to the most restrictive possible.  If you want to git pull or change the scripts, then you can run ```podbash uninstall``` before you do so.
+You can run the command ```podbash.sh install```, which will call into the install.sh defined in each container and pod that is defined, and source it to set the permissions of the scripts, and then run a function ```install_check``` if one is defined to check that the scripts are installed with the correct permissions.  Each time you run a podbash command, each install_check function that is defined will be called.  Simply make sure that the install_check function echo's to stdout some indication as to whether or not the scripts are installed with the correct permissions.
+
+The top level install.sh and uninstall.sh in the container_scripts directory, can be used to change and check the permissions of the podbash scripts themselves, as is the default when you download the scripts.
+
+If you have set the scripts to have restrictive permissions, and want to git pull or change the scripts, then you can run ```podbash uninstall``` before you do so.
+
 To create the containers and pods etc, run ```podbash create```.
 To remove the containers and pods etc, run ```podbash clean```.
 
