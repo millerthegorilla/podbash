@@ -24,7 +24,7 @@ fi
 
 function local_install_check()
 {
-  for file in $(find ${CONTAINER_SCRIPTS_ROOT} -type f -name "install.sh")
+  for install in $(find ${CONTAINER_SCRIPTS_ROOT} -type f -name "install.sh")
   do
     source ${install}
     if [[ $(type -t install_check) == "function" ]]
