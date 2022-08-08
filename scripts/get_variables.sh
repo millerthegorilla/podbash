@@ -1,11 +1,5 @@
 #!/bin/bash
 
-if [[ $EUID -ne 0 ]]
-then
-   echo "This script must be run as root" 
-   exit 1
-fi
-
 source ${CONTAINER_SCRIPTS_ROOT}/setup/utils/local_settings.sh
 
 function get_variables()

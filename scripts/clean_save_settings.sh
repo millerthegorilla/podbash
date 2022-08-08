@@ -1,10 +1,5 @@
 #!/bin/bash
 
-if [[ $EUID -ne 0 ]]; then
-   echo "This script must be run as root" 
-   exit 1
-fi
-
 source ${PROJECT_SETTINGS}
 
 echo -e "Do you want to save your local partial settings first before you clear them [ No ] ?"

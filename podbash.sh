@@ -1,11 +1,5 @@
 #!/bin/bash
 
-if [[ $EUID -ne 0 ]]
-then
-   echo "This script must be run as root" 
-   exit 1
-fi
-
 PARAMS=""
 
 set -a
@@ -28,89 +22,22 @@ then
     chmod 0660 ${SCRIPTS_ROOT}/settings_files ${SCRIPTS_ROOT}/settings_files/env_files;
 fi
 
-function install_check()
+function local_install_check()
 {
-  INSTALLED="installed."
-    if [[ "550" -ne $(stat -c '%a' ${SCRIPTS_ROOT}/podbash.sh) ]];
-    then
-      ERROR=": ERR1 podbash.sh"
-      INSTALLED="not installed"
-    fi
-    for line in $(find ${SCRIPTS_ROOT}/scripts -type d);
-    do
-      if [[ "550" -ne $(stat -c '%a' ${line}) ]];
+  for file in find ${CONTAINER_SCRIPTS_ROOT} -type f -name "install.sh";
+  do
+      source file;
+      new_install_check=install_check
+      if [[ $new_install_check != $old_install_check ]];
       then
-        ERROR=": ERR2 $line"
-        INSTALLED="not installed!";
-        break;
+        $new_install_check
       fi
-    done
-    if [[ $INSTALLED == "installed." ]];
-    then
-      for line in $(find ${SCRIPTS_ROOT}/scripts -type f)
-      do
-        if [[ "440" -ne $(stat -c '%a' ${line}) ]];
-        then
-          ERROR=": ERR3 $line"
-          INSTALLED="not installed!"
-          break;
-        fi
-      done
-    fi
-    if [[ $INSTALLED == "installed." ]];
-    then
-      for line in $(find ${CONTAINER_SCRIPTS_ROOT} -type f -executable)
-      do
-        if [[ ${line} ]];
-        then
-          ERROR=": ERR4 - executable found - $line"
-          INSTALLED="not installed!";
-          break;
-        fi
-      done
-    fi
-    if [[ $INSTALLED == "installed." ]];
-    then
-      for line in $(find ${SCRIPTS_ROOT}/.git -type d)
-      do
-        if [[  "550" -ne $(stat -c '%a' ${line}) ]];
-        then
-          ERROR=": ERR5 $line"
-          INSTALLED="not installed!";
-          break;
-        fi
-      done
-    fi;
-    if [[ $INSTALLED == "installed." ]];
-    then
-      for line in $(find ${SCRIPTS_ROOT}/.git/objects -type f) 
-      do
-        if [[ "444" -ne $(stat -c '%a' ${line}) ]];
-        then
-          ERROR=": ERR6 $line"
-          INSTALLED="not installed!";
-          break;
-        fi
-     done
-   fi
-   if [[ $INSTALLED == "installed." ]];
-    then
-      for line in $(find ${SCRIPTS_ROOT}/.git -type f | grep -v /objects/ ) 
-      do
-        if [[ "640" -ne $(stat -c '%a' ${line}) ]];
-        then
-          ERROR=": ERR7 $line"
-          INSTALLED="not installed!";
-          break;
-        fi
-     done
-   fi
-
-  echo -e "Scripts are ${INSTALLED} $ERROR";
+      $old_install_check=install_check
+  done
 }
 
 if [[ "$1" != "install" && "$1" != "uninstall" ]]; then
-    install_check;
+    local_install_check;
 fi
 
 if ! [[ -s ${PROJECT_SETTINGS} ]];
@@ -121,13 +48,11 @@ fi
 while (( "$#" )); do
   case "$1" in
     install)
-      bash ${SCRIPTS_ROOT}/scripts/install.sh -r
-      install_check
+      bash ${SCRIPTS_ROOT}/scripts/container_scripts_install.sh -r
       exit $?
       ;;
     uninstall)
-      bash ${SCRIPTS_ROOT}/scripts/uninstall.sh -r
-      install_check
+      bash ${SCRIPTS_ROOT}/scripts/container_scripts_uninstall.sh -r
       exit $?
       ;;
     create)
@@ -276,7 +201,11 @@ while (( "$#" )); do
       exit $?
       ;;   
     status)
-      #install_check
+      shift;
+      if [[ ${1} == "restricted" ]];
+      then
+          scripts_install_check
+      fi
       if [[ -s "${PROJECT_SETTINGS}" ]]
       then
           echo -e "PROJECT_SETTINGS file exists and is not empty!"
