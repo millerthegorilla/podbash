@@ -2,11 +2,17 @@
 
 for uninstall in $(find ${CONTAINER_SCRIPTS_ROOT} -type f -name "uninstall.sh" | sort)
 do
-    source "${install}"
-    new_install_check=install_check
+    source ${uninstall}
+    if [[ $(type -t install_check) == "function" ]]
+    then
+      new_install_check=$(type install_check)
+    fi
     if [[ $new_install_check != $old_install_check ]];
     then
-      $new_install_check
+      install_check
     fi
-    $old_install_check=install_check
+    if [[ $(type -t install_check) == "function" ]];
+    then
+      old_install_check=$(type install_check)
+    fi
 done
