@@ -34,6 +34,8 @@ function local_install_check()
     if [[ $new_install_check != $old_install_check ]];
     then
       install_check
+    else
+      function install_check() { test=""; }
     fi
     if [[ $(type -t install_check) == "function" ]];
     then
@@ -44,6 +46,7 @@ function local_install_check()
 
 if [[ "$1" != "install" && "$1" != "uninstall" ]]; then
     local_install_check;
+    echo "hey"
 fi
 
 if ! [[ -s ${PROJECT_SETTINGS} ]];
