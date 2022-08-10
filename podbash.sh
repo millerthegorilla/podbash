@@ -16,10 +16,10 @@ then
     source ${PROJECT_SETTINGS}
 fi
 
-if [[ ! -d ${SCRIPTS_ROOT}/settings_files ]];
+if [[ ! -d ${CURRENT_PROJECT}/settings_files ]];
 then
-    mkdir -p ${SCRIPTS_ROOT}/settings_files/env_files;
-    chmod 0775 ${SCRIPTS_ROOT}/settings_files ${SCRIPTS_ROOT}/settings_files/env_files;
+    mkdir -p ${CURRENT_PROJECT}/settings_files/env_files;
+    chmod 0775 ${CURRENT_PROJECT}/settings_files ${CURRENT_PROJECT}/settings_files/env_files;
 fi
 
 function local_install_check()
