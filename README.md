@@ -121,6 +121,11 @@ for example, to inspect the database (ie run mysql -uroot -p$PASSWORD).   http:/
 
 the scripts need to be made more secure, to prevent command injection etc.
 the scripts need to be made more portable.
+I want to make a command that uses something like git submodules to be able to install different container_scripts directories for different projects.
+I want to add project functionality, so a serialised list of projects, each with container_script directories.
+I want to add a command to upload the custom images to a remote host
+I want to add a command that copies the container scripts to a remote host
+I want to add a command that runs the scripts against a remote host
 
 ### disclaimer...
 
