@@ -19,7 +19,7 @@ fi
 if [[ ! -d ${SCRIPTS_ROOT}/settings_files ]];
 then
     mkdir -p ${SCRIPTS_ROOT}/settings_files/env_files;
-    chmod 0660 ${SCRIPTS_ROOT}/settings_files ${SCRIPTS_ROOT}/settings_files/env_files;
+    chmod 0775 ${SCRIPTS_ROOT}/settings_files ${SCRIPTS_ROOT}/settings_files/env_files;
 fi
 
 function local_install_check()
