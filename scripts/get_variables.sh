@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ${CONTAINER_SCRIPTS_ROOT}/containers/setup/utils/local_settings.sh
+source ${CONTAINER_SCRIPTS_ROOT}/setup/utils/local_settings.sh
 
 function get_variables()
 {
