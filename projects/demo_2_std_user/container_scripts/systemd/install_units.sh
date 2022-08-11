@@ -19,7 +19,7 @@ do
   echo ${f} >> .gitignore
   if [[ -e ${HOME}/.config/systemd/user/${f} ]]
   then
-      chcon -u system_u -t systemd_unit_file_t ${HOME}/.config/systemd/user/${f}
+      chcon -u unconfined_u -t systemd_unit_file_t ${HOME}/.config/systemd/user/${f}
       systemctl --user enable ${f}
   fi
 done
