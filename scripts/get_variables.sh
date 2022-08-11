@@ -37,8 +37,11 @@ function get_variables_and_make_project_file()
 function make_project_settings()
 {
     touch ${PROJECT_SETTINGS}
-    chown root:root ${PROJECT_SETTINGS}
-    chmod 0600 ${PROJECT_SETTINGS}
+    if [[ ${PROJECT_TYPE} == "RESTRICTED" ]];
+    then
+        chown root:root ${PROJECT_SETTINGS}
+        chmod 0600 ${PROJECT_SETTINGS}
+    fi
 }
 
 function check_for_project_settings()
