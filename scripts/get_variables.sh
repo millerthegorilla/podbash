@@ -78,7 +78,9 @@ check_for_project_settings
 echo -e "Enter absolute filepath of project settings or press enter to accept default.\n \
 If the default does not exist, then you can enter the variables manually..."
 
+pushd ${CURRENT_PROJECT_PATH}/settings_files &>/dev/null;
 read -p ": " -e PROJECT_FILE
+popd &>/dev/null
 
 if [[ -n ${PROJECT_FILE} && -f ${PROJECT_FILE} ]];
 then
