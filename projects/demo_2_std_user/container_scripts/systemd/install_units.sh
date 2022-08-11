@@ -20,4 +20,3 @@ do
 done
 
 systemctl --user daemon-reload
-popd
