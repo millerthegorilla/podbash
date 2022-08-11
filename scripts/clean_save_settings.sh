@@ -12,7 +12,7 @@ done
 
 if [[ SAVE == "TRUE" ]];
 then
-	FILEPATH=${SCRIPTS_ROOT}/settings_files/project_settings.partial.${PROJECT_NAME}.$(date +%d-%m-%y_%T)
+	FILEPATH=${CURRENT_PROJECT_PATH}/settings_files/project_settings.partial.${PROJECT_NAME}.$(date +%d-%m-%y_%T)
 	for file in $(find ${CONTAINER_SCRIPTS_ROOT}/containers -type f -name "settings.sh" | sort)
 	do
 		cat ${file} > ${FILEPATH}

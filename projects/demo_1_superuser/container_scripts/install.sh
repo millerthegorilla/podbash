@@ -97,18 +97,18 @@ function install_check()
 #find ${SCRIPTS_ROOT} -type f -exec chown root:root {} +
 find ${SCRIPTS_ROOT} -type d -exec chmod 0550 -- {} +
 find ${SCRIPTS_ROOT} -type f -exec chmod 0440 -- {} +
-find ${CURRENT_PROJECT}/container_scripts -type f -name "*$.sh" -exec chmod 0440 -- {} +
+find ${CURRENT_PROJECT_PATH}/container_scripts -type f -name "*$.sh" -exec chmod 0440 -- {} +
 #find ${SCRIPTS_ROOT}/container_scripts -type f -name "settings.sh" -exec chmod 0640 -- {} +
-find ${CURRENT_PROJECT}/container_scripts -type d -exec chmod 0770 -- {} +
+find ${CURRENT_PROJECT_PATH}/container_scripts -type d -exec chmod 0770 -- {} +
 find ${SCRIPTS_ROOT}/scripts -type f -name "*$.sh" -exec chmod 0440 -- {} +
 find ${SCRIPTS_ROOT}/.git -type d -exec chmod 0550 {} +
 find ${SCRIPTS_ROOT}/.git/objects -type f -exec chmod 0444 -- {} +
 find ${SCRIPTS_ROOT}/.git -type f | grep -v /objects/ | xargs chmod 640
 find ${SCRIPTS_ROOT} -type d -exec chown ${SUDO_USER}:${SUDO_USER} -- {} +
 find ${SCRIPTS_ROOT} -type f -exec chown ${SUDO_USER}:${SUDO_USER} -- {} +
-find ${CURRENT_PROJECT}/settings_files -type d -exec chown root:root -- {} + \
+find ${CURRENT_PROJECT_PATH}/settings_files -type d -exec chown root:root -- {} + \
                                             -exec chmod 0660 -- {} +
-find ${CURRENT_PROJECT}/settings_files -type f -exec chown root:root -- {} + \
+find ${CURRENT_PROJECT_PATH}/settings_files -type f -exec chown root:root -- {} + \
                                             -exec chmod 0440 -- {} +
 chmod 0550 ${SCRIPTS_ROOT}/podbash.sh
 chmod 0550 ${SCRIPTS_ROOT}/scripts

@@ -30,7 +30,7 @@ function get_variables_and_make_project_file()
 
     if [[ SAVE_SETTINGS == "TRUE" ]]
     then
-        cp ${PROJECT_SETTINGS} ${CURRENT_PROJECT}/settings_files/PROJECT_SETTINGS.${PROJECT_NAME}.$(date +%d-%m-%y_%T)
+        cp ${PROJECT_SETTINGS} ${CURRENT_PROJECT_PATH}/settings_files/PROJECT_SETTINGS.${PROJECT_NAME}.$(date +%d-%m-%y_%T)
     fi
 }
 
@@ -49,7 +49,7 @@ function check_for_project_settings()
         then
             echo -e "local .PROJECT_SETTINGS exists and is not empty"
             new_file="TRUE"
-            for settings_file in $(find ${CURRENT_PROJECT}/settings_files -maxdepth 1 -type f | grep -v ".git_ignore")
+            for settings_file in $(find ${CURRENT_PROJECT_PATH}/settings_files -maxdepth 1 -type f | grep -v ".git_ignore")
             do
                 if diff -q ${PROJECT_SETTINGS} ${settings_file} &>/dev/null;
                 then
@@ -60,7 +60,7 @@ function check_for_project_settings()
             if [[ "${new_file}" == "TRUE" ]]
             then
                 echo -e "Moving it to PROJECT_SETTINGS_OLD"
-                mv ${PROJECT_SETTINGS} ${CURRENT_PROJECT}/settings_files/PROJECT_SETTINGS_OLD.$(date +%d-%m-%y_%T)
+                mv ${PROJECT_SETTINGS} ${CURRENT_PROJECT_PATH}/settings_files/PROJECT_SETTINGS_OLD.$(date +%d-%m-%y_%T)
             else
                 echo -e "File already exists as ${new_file}.  Deleting current settings.\n"
                 rm ${PROJECT_SETTINGS}
@@ -87,7 +87,7 @@ else
     get_variables_and_make_project_file
 fi
 
-if [[ -n "${project_settings}" && "${project_settings}" != "${CURRENT_PROJECT}/PROJECT_SETTINGS" ]]
+if [[ -n "${project_settings}" && "${project_settings}" != "${CURRENT_PROJECT_PATH}/PROJECT_SETTINGS" ]]
 then
     cat ${project_settings} >> ${PROJECT_SETTINGS}
 fi
