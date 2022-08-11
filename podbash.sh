@@ -220,17 +220,11 @@ while (( "$#" )); do
       else
           echo -e "PROJECT_SETTINGS file is empty!"
       fi
-      if [[ -n ${POD_NAME} ]]
+      if [[ -f "${CURRENT_PROJECT_PATH}/status.sh" ]];
       then
-          if [[ $(runuser --login ${USER_NAME} -c "podman pod exists ${POD_NAME}"; echo $?) -eq 0 ]]
-          then         
-              echo -e "pod ${POD_NAME} exists!  State is $(runuser --login ${USER_NAME} -c "podman pod inspect ${POD_NAME}" | grep -m1 State)"
-              exit 0
-          else
-            echo -e "No project running currently"
-          fi
+          bash "${CURRENT_PROJECT_PATH}/status.sh";
       fi
-      exit 1
+      exit $?
       ;;
     interact)
       if [[ -z ${USER_NAME} ]]
