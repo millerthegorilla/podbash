@@ -42,12 +42,12 @@ echo "PROJECT_NAME=${PROJECT_NAME}" >> ${L_S_FILE}
 
 # echo "USER_DIR=${USER_DIR}" >> ${L_S_FILE}
 
-# DJANGO_PROJECT_NAME
-PN=$(basename $(dirname $(find ${CODE_PATH} -name "asgi.py")))
-read -p "Enter the name of the django project ie the folder in which wsgi.py resides [${PN}] : " DJANGO_PROJECT_NAME
-DJANGO_PROJECT_NAME=${DJANGO_PROJECT_NAME:-${PN}}
+# # DJANGO_PROJECT_NAME
+# PN=$(basename $(dirname $(find ${CODE_PATH} -name "asgi.py")))
+# read -p "Enter the name of the django project ie the folder in which wsgi.py resides [${PN}] : " DJANGO_PROJECT_NAME
+# DJANGO_PROJECT_NAME=${DJANGO_PROJECT_NAME:-${PN}}
 
-echo "DJANGO_PROJECT_NAME=${DJANGO_PROJECT_NAME}" >>  ${L_S_FILE}
+# echo "DJANGO_PROJECT_NAME=${DJANGO_PROJECT_NAME}" >>  ${L_S_FILE}
 
 # DEBUG
 if [[ -z "${DEBUG}" ]]
