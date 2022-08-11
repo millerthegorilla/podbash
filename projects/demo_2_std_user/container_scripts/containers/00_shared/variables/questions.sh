@@ -10,7 +10,7 @@ isValidVarName() {
 
 until isValidVarName "${PROJECT_NAME}"
 do
-   read -p 'Artisan scripts project name - this is used as a directory name, so must be conformant to bash requirements : ' PROJECT_NAME
+   read -p 'Podbash demo project name - this is used as a directory name, so must be conformant to bash requirements : ' PROJECT_NAME
    if ! isValidVarName "${PROJECT_NAME}"
    then
        echo -e "That is not a valid variable name.  Your project name must conform to bash directory name standards"
