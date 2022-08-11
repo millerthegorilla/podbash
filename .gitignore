@@ -1,6 +1,11 @@
-projects/**/container_scripts/containers/**/variables/settings.sh
-projects/**/container_scripts/containers/**/image/existing_image_vars
 projects/**/PROJECT_SETTINGS
 projects/**/settings_files
 projects/**/settings_files/**/*
-LICENSE
+LICENSELICENSE
+options
+podbash_readme.png
+podbash_readme.xcf
+podbash.sh
+projects
+README.md
+scripts
