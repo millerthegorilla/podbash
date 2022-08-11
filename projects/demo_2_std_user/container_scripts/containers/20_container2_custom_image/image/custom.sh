@@ -4,24 +4,20 @@ source ${PROJECT_SETTINGS}
 source ${CONTAINER_SCRIPTS_ROOT}/setup/utils/current_dir.sh
 source ${CONTAINER_SCRIPTS_ROOT}/setup/utils/get_tag.sh
 
-# custom_tag=$(get_tag "${CURRENT_DIR}")
+custom_tag=$(get_tag "${CURRENT_DIR}")
 
-# EXISTING_IMAGE_VARS="${CURRENT_DIR}/existing_image_vars"
+EXISTING_IMAGE_VARS="${CURRENT_DIR}/existing_image_vars"
 
 function build_maria()
 {
-   if [[ -e ${CURRENT_VARS} ]]
+   if [[ -e ${EXISTING_IMAGE_VARS} ]]
    then
-      rm ${CURRENT_VARS}
+      rm ${EXISTING_IMAGE_VARS}
    fi
-   cp ${CURRENT_DIR}/dockerfile/dockerfile /home/${USER_NAME}/dockerfile_maria
-   cp ${CURRENT_DIR}/dockerfile/maria.sh /home/${USER_NAME}/maria.sh
-   chown ${USER_NAME}:${USER_NAME} /home/${USER_NAME}/dockerfile_maria /home/${USER_NAME}/maria.sh
-   podman build --tag='${custom_tag}' -f='dockerfile_maria'
+   podman build --tag="${custom_tag}" -f="${CURRENT_DIR}/dockerfile/dockerfile"
    echo -e "DBNAME=${DB_NAME}" > ${EXISTING_IMAGE_VARS}
    echo -e "DBUSER=${DB_USER}" >> ${EXISTING_IMAGE_VARS} 
    echo -e "DBHOST=${DB_HOST}" >> ${EXISTING_IMAGE_VARS} 
-   rm /home/${USER_NAME}/dockerfile_maria /home/${USER_NAME}/maria.sh
 }
 
 podman image exists ${custom_tag}

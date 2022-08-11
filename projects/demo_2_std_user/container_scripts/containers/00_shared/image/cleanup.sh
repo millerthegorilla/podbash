@@ -13,8 +13,8 @@ then
     IMAGES=$(grep -whorP "(TAG)+=\K.*" ${CONTAINER_SCRIPTS_ROOT}/containers/ | sed s'/\n/ /')
     for image in ${IMAGES}
     do
-       runuser --login ${USER_NAME} -c "podman rmi ${image}"
+       podman rmi ${image}
     done
 fi
 
-runuser --login ${USER_NAME} -c "podman volume prune -f"
+podman volume prune -f

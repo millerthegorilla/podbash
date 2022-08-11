@@ -28,11 +28,11 @@ fi
 
 if [[ ${DEBUG} == "TRUE" ]]
 then
-	if [[ $(systemctl get-default) == "graphical.target" && $(id -u ${USER_NAME}) -ge 1000 ]]
+	if [[ $(systemctl get-default) == "graphical.target" ]]
 	then 
     	cat ${CURRENT_DIR}/templates/manage_start_graphical.service | envsubst > ${SYSTEMD_UNIT_DIR}/manage_start.service 
     	cat ${CURRENT_DIR}/templates/qcluster_start_graphical.service | envsubst > ${SYSTEMD_UNIT_DIR}/qcluster_start.service 
-    elif [[ $(systemctl get-default) == "graphical.target" && $(id -u ${USER_NAME}) -le 999 || $(systemctl get-default) == "multi-user.target" ]]
+    elif [[ $(systemctl get-default) == "graphical.target" || $(systemctl get-default) == "multi-user.target" ]]
     then
         cat ${CURRENT_DIR}/templates/manage_start_non_graphical.service | envsubst > ${SYSTEMD_UNIT_DIR}/manage_start.service
     	cat ${CURRENT_DIR}/templates/qcluster_start_non_graphical.service | envsubst > ${SYSTEMD_UNIT_DIR}/qcluster_start.service

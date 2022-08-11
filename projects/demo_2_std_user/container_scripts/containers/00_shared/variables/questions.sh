@@ -19,28 +19,28 @@ done
 
 echo "PROJECT_NAME=${PROJECT_NAME}" >> ${L_S_FILE}
 
-# USER_NAME
-USER_NAME=${RANDOM}
-until id ${USER_NAME} >/dev/null 2>&1;
-do
-    read -p "Standard/service user account name ['artisan_sysd'] : " USER_NAME
-    USER_NAME=${USER_NAME:-"artisan_sysd"}
-done
-# if [[ $(id ${USER_NAME} > /dev/null 2>&1; echo $?) -ne 0 ]]
-# then
-#     echo -e "Error, account with username ${USER_NAME} does not exist!"
-#     exit 1
-# fi
+# # USER_NAME
+# USER_NAME=${RANDOM}
+# until id ${USER_NAME} >/dev/null 2>&1;
+# do
+#     read -p "Standard/service user account name ['artisan_sysd'] : " USER_NAME
+#     USER_NAME=${USER_NAME:-"artisan_sysd"}
+# done
+# # if [[ $(id ${USER_NAME} > /dev/null 2>&1; echo $?) -ne 0 ]]
+# # then
+# #     echo -e "Error, account with username ${USER_NAME} does not exist!"
+# #     exit 1
+# # fi
 
-echo "USER_NAME=${USER_NAME}" >> ${L_S_FILE} 
+# echo "USER_NAME=${USER_NAME}" >> ${L_S_FILE} 
 
-# USER_DIR
-pushd / &> /dev/null
-read -p "Absolute path to User home dir [ /home/${USER_NAME} ] : " -e USER_DIR
-USER_DIR=${USER_DIR:-/home/${USER_NAME}}
-popd &> /dev/null
+# # USER_DIR
+# pushd / &> /dev/null
+# read -p "Absolute path to User home dir [ /home/${USER_NAME} ] : " -e USER_DIR
+# USER_DIR=${USER_DIR:-/home/${USER_NAME}}
+# popd &> /dev/null
 
-echo "USER_DIR=${USER_DIR}" >> ${L_S_FILE}
+# echo "USER_DIR=${USER_DIR}" >> ${L_S_FILE}
 
 # DJANGO_PROJECT_NAME
 PN=$(basename $(dirname $(find ${CODE_PATH} -name "asgi.py")))

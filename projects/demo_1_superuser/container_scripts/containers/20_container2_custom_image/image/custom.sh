@@ -15,9 +15,9 @@ source ${CONTAINER_SCRIPTS_ROOT}/setup/utils/get_tag.sh
 
 # function build_maria()
 # {
-#    if [[ -e ${CURRENT_VARS} ]]
+#    if [[ -e ${EXISTING_IMAGE_VARS} ]]
 #    then
-#       rm ${CURRENT_VARS}
+#       rm ${EXISTING_IMAGE_VARS}
 #    fi
 #    cp ${CURRENT_DIR}/dockerfile/dockerfile /home/${USER_NAME}/dockerfile_maria
 #    cp ${CURRENT_DIR}/dockerfile/maria.sh /home/${USER_NAME}/maria.sh
