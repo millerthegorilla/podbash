@@ -1,0 +1,3 @@
+./container_scripts/containers/**/variables/settings.sh
+./container_scripts/pods/**/variables/settings.sh
+PROJECT_SETTINGS

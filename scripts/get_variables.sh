@@ -79,11 +79,13 @@ echo -e "Enter absolute filepath of project settings or press enter to accept de
 If the default does not exist, then you can enter the variables manually..."
 
 pushd ${CURRENT_PROJECT_PATH}/settings_files &>/dev/null;
-read -p ": " -e PROJECT_FILE
+read -p ": " -e project_file
 popd &>/dev/null
-
-if [[ -n ${PROJECT_FILE} && -f ${PROJECT_FILE} ]];
+PROJECT_FILE="${CURRENT_PROJECT_PATH}/settings_files/${project_file}"
+echo ${PROJECT_FILE}
+if [[ -f "${PROJECT_FILE}" ]];
 then
+    echo "bob"
     project_settings=${PROJECT_FILE}
 elif [[ -n ${DEFAULT_PROJECT_FILE} && -f ${DEFAULT_PROJECT_FILE} ]];
 then
