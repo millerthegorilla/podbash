@@ -12,10 +12,9 @@ then
 fi
 
 pushd ${SYSTEMD_UNIT_DIR}
-cp -a * ${HOME}/.config/systemd/user 
+cp -a * ${HOME}/.config/systemd/user
 
-FILES=*
-for f in ${FILES}
+for f in $(find ${SYSTEMD_UNIT_DIR} -type f -name "*.service")
 do
   echo ${f} >> .gitignore
   if [[ -e ${HOME}/.config/systemd/user/${f} ]]
