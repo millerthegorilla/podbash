@@ -12,4 +12,4 @@ podman generate systemd --new --name --files ${POD_NAME}
 
 # copy gitignore into empty dir
 cp ${CURRENT_DIR}/templates/systemd_git_ignore ${SYSTEMD_UNIT_DIR}/.gitignore
-chmod -R 0444 ${SYSTEMD_UNIT_DIR}/*
+chmod -R 0644 ${SYSTEMD_UNIT_DIR}/*
