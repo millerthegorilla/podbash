@@ -12,15 +12,15 @@ then
 fi
 
 pushd ${SYSTEMD_UNIT_DIR}
-cp -a * /etc/systemd/user/
+cp -a * ${HOME}/.config/systemd/user 
 
 FILES=*
 for f in ${FILES}
 do
   echo ${f} >> .gitignore
-  if [[ -e /etc/systemd/user/${f} ]]
+  if [[ -e ${HOME}/.config/systemd/user/${f} ]]
   then
-      chcon -u system_u -t systemd_unit_file_t /etc/systemd/user/${f}
+      chcon -u system_u -t systemd_unit_file_t ${HOME}/.config/systemd/user/${f}
       systemctl --user enable ${f}
   fi
 done

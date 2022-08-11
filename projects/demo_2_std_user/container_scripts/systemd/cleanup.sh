@@ -21,10 +21,10 @@ then
     FILES=*
     for f in ${FILES}
     do
-      if [[ -e /etc/systemd/user/${f} ]]
+      if [[ -e ${HOME}/.config/systemd/user/${f} ]]
       then
           systemctl --user disable ${f}
-          rm -rf /etc/systemd/user/${f}
+          rm -rf ${HOME}/.config/systemd/user/${f}
       fi
     done
 
