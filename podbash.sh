@@ -229,32 +229,31 @@ while (( "$#" )); do
     interact)
       if [[ -z ${USER_NAME} ]]
       then
-          read -p "Enter username : " USER_NAME
+          echo -e "A user name must be defined for the podman user for this command to work."
+          exit 1
       fi
       runuser --login ${USER_NAME} -P -c "XDG_RUNTIME_DIR=\"/run/user/$(id -u ${USER_NAME})\" DBUS_SESSION_BUS_ADDRESS=\"unix:path=${XDG_RUNTIME_DIR}/bus\" cd; ${2}"
       exit $?
       ;;
     update)
-      if [[ -z ${USER_NAME} ]]
+      if [[ -n ${USER_NAME} ]]
       then
-          read -p "Enter username : " USER_NAME
+          su ${USER_NAME} -c "pushd ~ &>/dev/null; podman ps --format=\"{{.Names}}\" | grep -oP '^((?!infra).)*$' | while read name; do podman exec -u root ${name} bash -c \"apt-get update; apt-get upgrade -y\"; done; popd &>/dev/null;"
+      else
+          pushd ~ &>/dev/null; podman ps --format=\"{{.Names}}\" | grep -oP '^((?!infra).)*$' | while read name; do podman exec -u root ${name} bash -c \"apt-get update; apt-get upgrade -y\"; done; popd &>/dev/null;
       fi
-      su ${USER_NAME} -c "cd; podman ps --format=\"{{.Names}}\" | grep -oP '^((?!infra).)*$' | while read name; do podman exec -u root ${name} bash -c \"apt-get update; apt-get upgrade -y\"; done"
       exit $?
       ;;
     refresh)
-      if [[ -z ${USER_NAME} ]]
+      if [[ -n ${USER_NAME} ]]
       then
-          read -p "Enter username : " USER_NAME
+          su ${USER_NAME} -c "pushd ~ &/dev/null; podman pod stop ${POD_NAME}; podman image prune --all -f; popd &>/dev/null;"
+      else
+          pushd ~ &>/dev/null; podman pod stop ${POD_NAME}; podman image prune --all -f; popd &>/dev/null;
       fi
-      if [[ -z ${POD_NAME} ]]
-      then
-          read -p "Enter username : " POD_NAME
-      fi
-      su ${USER_NAME} -c "cd; podman pod stop ${POD_NAME}; podman image prune --all -f"
       ${SCRIPTS_ROOT}/scripts/image_acq.sh
       ${SCRIPTS_ROOT}/scripts/image_build.sh
-      systemctl reboot
+      echo "now run the command 'systemctl reboot'."
       ;;
     help|-h|-?|--help)
       echo -e "$ ./podbash.sh command   - where command is one of clean,
