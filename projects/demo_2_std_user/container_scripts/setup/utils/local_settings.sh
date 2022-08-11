@@ -7,7 +7,7 @@ function check_settings_empty()
 		if grep -q '[^[:space:]]' ${1};
 		then
 			echo -e "settings file contains data - moving it before creating new one" | tee /dev/tty
-			mv ${1} ${SCRIPTS_ROOT}/settings_files/partial_settings.old.${2}.$(date +%d-%m-%y_%T)
+			mv ${1} ${CURRENT_PROJECT_PATH}/settings_files/partial_settings.old.${2}.$(date +%d-%m-%y_%T)
 		else
 			rm ${1}
 		fi
