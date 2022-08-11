@@ -232,7 +232,8 @@ while (( "$#" )); do
       exit $?
       ;;
     interact)
-      if [[ -n ${PROJECT_TYPE} && ${PROJECT_TYPE} == "RESTRICTED" ]]
+      if [[ -n ${PROJECT_TYPE} && ${PROJECT_TYPE} == "RESTRICTED" ]];
+      then
         if [[ -z ${USER_NAME} ]]
         then
             echo -e "A user name must be defined for the podman user for this command to work."
