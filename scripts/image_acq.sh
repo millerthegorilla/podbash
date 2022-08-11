@@ -18,4 +18,5 @@ do
             echo "pulling ${TAG}"
             podman pull ${SOURCE}
         fi
+    fi
 done
