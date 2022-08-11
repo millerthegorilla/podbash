@@ -5,9 +5,14 @@ PARAMS=""
 set -a
 SCRIPTS_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
-if [[ -e ${SCRIPTS_ROOT}/options ]]
+if [[ -e "${SCRIPTS_ROOT}/options" ]]
 then
-  source ${SCRIPTS_ROOT}/options
+  source "${SCRIPTS_ROOT}/options"
+fi
+
+if [[ -e "${CURRENT_PROJECT_PATH}/options" ]];
+then
+  source "${CURRENT_PROJECT_PATH}/options"
 fi
 set +a
 
@@ -227,16 +232,20 @@ while (( "$#" )); do
       exit $?
       ;;
     interact)
-      if [[ -z ${USER_NAME} ]]
-      then
-          echo -e "A user name must be defined for the podman user for this command to work."
-          exit 1
+      if [[ -n ${PROJECT_TYPE} && ${PROJECT_TYPE} == "RESTRICTED" ]]
+        if [[ -z ${USER_NAME} ]]
+        then
+            echo -e "A user name must be defined for the podman user for this command to work."
+            exit 1
+        fi
+        runuser --login ${USER_NAME} -P -c "XDG_RUNTIME_DIR=\"/run/user/$(id -u ${USER_NAME})\" DBUS_SESSION_BUS_ADDRESS=\"unix:path=${XDG_RUNTIME_DIR}/bus\" cd; ${2}"
+        exit $?
+      else
+        echo -e "Wrong PROJECT_TYPE!"
       fi
-      runuser --login ${USER_NAME} -P -c "XDG_RUNTIME_DIR=\"/run/user/$(id -u ${USER_NAME})\" DBUS_SESSION_BUS_ADDRESS=\"unix:path=${XDG_RUNTIME_DIR}/bus\" cd; ${2}"
-      exit $?
       ;;
     update)
-      if [[ -n ${USER_NAME} ]]
+      if [[ ${PROJECT_TYPE} == "RESTRICTED" && -n ${USER_NAME} ]]
       then
           su ${USER_NAME} -c "pushd ~ &>/dev/null; podman ps --format=\"{{.Names}}\" | grep -oP '^((?!infra).)*$' | while read name; do podman exec -u root ${name} bash -c \"apt-get update; apt-get upgrade -y\"; done; popd &>/dev/null;"
       else
@@ -245,7 +254,7 @@ while (( "$#" )); do
       exit $?
       ;;
     refresh)
-      if [[ -n ${USER_NAME} ]]
+      if [[ ${PROJECT_TYPE} == "RESTRICTED" && -n ${USER_NAME} ]]
       then
           su ${USER_NAME} -c "pushd ~ &/dev/null; podman pod stop ${POD_NAME}; podman image prune --all -f; popd &>/dev/null;"
       else
