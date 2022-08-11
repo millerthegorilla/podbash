@@ -11,17 +11,12 @@ then
     mkdir -p ${SYSTEMD_UNIT_DIR};
 fi
 
-pushd ${SYSTEMD_UNIT_DIR}
-cp -a * ${HOME}/.config/systemd/user
-
 for f in $(find ${SYSTEMD_UNIT_DIR} -type f -name "*.service")
 do
+  cp ${f} ${HOME}/.config/systemd/user/$(basename ${f})
   echo ${f} >> .gitignore
-  if [[ -e ${HOME}/.config/systemd/user/${f} ]]
-  then
-      chcon -u unconfined_u -t systemd_unit_file_t ${HOME}/.config/systemd/user/${f}
-      systemctl --user enable ${f}
-  fi
+  chcon -u unconfined_u -t systemd_unit_file_t ${HOME}/.config/systemd/user/$(basename ${f})
+  systemctl --user enable $(basename ${f})
 done
 
 systemctl --user daemon-reload
